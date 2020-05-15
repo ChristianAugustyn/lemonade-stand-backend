@@ -15,8 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from pages.views import form_view
+from products.views import product_detail_view
 
 urlpatterns = [
+    path('products/', product_detail_view),
+    path('sales/form/', form_view, name='form'),
     path('admin/', admin.site.urls),
-    path('sales/form/', include('sales.urls')),
 ]

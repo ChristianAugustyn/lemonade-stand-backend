@@ -1,0 +1,10 @@
+<html>
+    <body>
+        {{staff}}
+        <ul>
+            {% for staff_member in staff %}
+                <li>{{staff_member.position}}: {{staff_member.first_name}} - {{staff_member.commission}}</li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>

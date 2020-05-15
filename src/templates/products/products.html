@@ -1,0 +1,9 @@
+<ul>
+    {% for p in products %}
+        <li>{{p.name}} - ${{p.price}}</li>
+    {% endfor %}
+</ul>
+<form method='POST'>{% csrf_token %}
+    {{form.as_p}}
+    <input type='submit' value='Save'/>
+</form>
