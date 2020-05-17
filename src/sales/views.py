@@ -3,6 +3,7 @@ from .models import Sale
 from .forms import StaffForm, ItemForm #,SaleForm
 from products.models import Product
 from staff.models import StaffMember
+from orders.models import Order
 # Create your views here.
 items = []
 
@@ -26,12 +27,18 @@ def sale_form_view(request, *args, **kwargs):
         item_form = ItemForm()
 
     if staff_form.is_valid() and len(items) > 0:
+
+        sale = Sale.objects.create(
+            staff_member=StaffMember.objects.get(id=int(request.POST.get('staff_member'))),
+            # item=Product.objects.get(id=int(i))
+        )
+        sale.save()
         for i in items:
-            sale = Sale.objects.create(
-                staff_member=StaffMember.objects.get(id=int(request.POST.get('staff_member'))),
+            order = Order.objects.create(
+                sale=sale,
                 item=Product.objects.get(id=int(i))
             )
-            sale.save()
+            order.save()
         items.clear()
         item_form = ItemForm()
         staff_form = StaffForm()

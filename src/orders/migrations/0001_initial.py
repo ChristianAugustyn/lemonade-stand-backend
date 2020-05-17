@@ -9,18 +9,17 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
+        ('sales', '0001_initial'),
         ('products', '0001_initial'),
-        ('staff', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Sale',
+            name='Order',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date', models.DateTimeField(auto_now_add=True)),
                 ('item', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='products.Product')),
-                ('staff_member', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='staff.StaffMember')),
+                ('sale', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='sales.Sale')),
             ],
         ),
     ]

@@ -12,7 +12,7 @@ class StaffForm(forms.ModelForm):
 
 class ItemForm(forms.ModelForm):
     class Meta:
-        model = Sale
+        model = Order
         fields = [
             'item'
         ]
