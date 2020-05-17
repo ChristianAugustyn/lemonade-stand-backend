@@ -10,8 +10,27 @@
 <form method='POST'> {% csrf_token %}
     {{staff_form.as_p}}
     <label>Start Date</label>
-    <input type='date' name='start-date'/>
+    <input type='date' name='start-date'/ required>
+    <br>
     <label>End Date</label>
-    <input type='date' name='end-date'/>
+    <input type='date' name='end-date'/ required>
+    <br>
     <input type='submit' value='Submit'/>
 </form>
+
+<table>
+    <tr>
+        <th>Date</th>
+        <th>Items Sold</th>
+        <th>Total Price</th>
+        <th>Commission Earned</th>
+    </tr>
+    {% for report in reports %}
+        <tr>
+            <th>{{report.date}}</th>
+            <th>{{report.items}}</th>
+            <th>{{report.total_price}}</th>
+            <th>{{report.commission}}</th>
+        </tr>
+    {% endfor %}
+</table>

@@ -4,8 +4,10 @@ from .forms import StaffForm, ItemForm #,SaleForm
 from products.models import Product
 from staff.models import StaffMember
 from orders.models import Order
+from classes.report import ReportItem
 # Create your views here.
 items = []
+reports = []
 
 PRODUCTS = map( #not needed
     (lambda model: (model.id, model.name)), 
@@ -30,7 +32,6 @@ def sale_form_view(request, *args, **kwargs):
 
         sale = Sale.objects.create(
             staff_member=StaffMember.objects.get(id=int(request.POST.get('staff_member'))),
-            # item=Product.objects.get(id=int(i))
         )
         sale.save()
         for i in items:
@@ -57,10 +58,28 @@ def report_form_view(request):
 
     staff_form = StaffForm(request.POST or None)
 
-    print(request.POST)
+    if staff_form.is_valid() and request.POST.get('end-date') >= request.POST.get('start-date'):
+        print(request.POST)
+        staff_form = StaffForm()
+        reports.clear()
+        staff_member = StaffMember.objects.get(id=int(request.POST.get('staff_member')))
+
+        sales = Sale.objects.filter(
+            date__date__range=[
+                request.POST.get('start-date'),
+                request.POST.get('end-date')
+            ], 
+            staff_member_id=staff_member
+        )
+
+        for sale in sales:
+            orders = Order.objects.filter(sale_id=sale.id)
+            report_item = ReportItem(staff_member, sale.date, orders)
+            reports.append(report_item)
 
     context = {
         'staff_form': staff_form,
         'staff': STAFF,
+        'reports': reports
     }
     return render(request, 'sales/report_form.html', context)
