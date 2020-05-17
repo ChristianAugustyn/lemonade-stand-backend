@@ -17,11 +17,11 @@ from django.contrib import admin
 from django.urls import path, include
 from pages.views import form_view
 from products.views import product_detail_view
-from sales.views import sale_form_view
+from sales.views import sale_form_view, report_form_view
 
 urlpatterns = [
+    path('sales/report/', report_form_view),
     path('sales/form/', sale_form_view),
     path('products/', product_detail_view),
-    path('sales/form/', form_view, name='form'),
     path('admin/', admin.site.urls),
 ]

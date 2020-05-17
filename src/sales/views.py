@@ -4,20 +4,19 @@ from .forms import StaffForm, ItemForm #,SaleForm
 from products.models import Product
 from staff.models import StaffMember
 # Create your views here.
-
 items = []
 
+PRODUCTS = map( #not needed
+    (lambda model: (model.id, model.name)), 
+    Product.objects.all()
+)
+
+STAFF = map( #not needed
+    (lambda model: (model.id, ' '.join([model.first_name, model.last_name]))),
+    StaffMember.objects.all()
+)
+
 def sale_form_view(request, *args, **kwargs):
-
-    PRODUCTS = map( #not needed
-        (lambda model: (model.id, model.name)), 
-        Product.objects.all()
-    )
-
-    STAFF = map( #not needed
-        (lambda model: (model.id, ' '.join([model.first_name, model.last_name]))),
-        StaffMember.objects.all()
-    )
 
     item_form = ItemForm(request.POST or None)
     staff_form = StaffForm(request.POST or None)
@@ -47,3 +46,14 @@ def sale_form_view(request, *args, **kwargs):
 
     return render(request, 'sales/sale_form.html', context)
 
+def report_form_view(request):
+
+    staff_form = StaffForm(request.POST or None)
+
+    print(request.POST)
+
+    context = {
+        'staff_form': staff_form,
+        'staff': STAFF,
+    }
+    return render(request, 'sales/report_form.html', context)
