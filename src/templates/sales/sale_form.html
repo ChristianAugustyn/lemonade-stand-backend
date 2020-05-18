@@ -1,40 +1,35 @@
-{% load static %}
+{% extends './base.html' %}
 
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="{% static '/styles.css' %}">
-    </head>
-    <body>
-        <h1>Welcome to the Sale Form</h1>
+{% block content %}
+<h1>Welcome to the Sale Form</h1>
 
-        <h2>Staff List</h2>
-        <ul>
-            {% for mem in staff%}
-                <li>{{mem}}</li>
-            {% endfor %}
-        </ul>
+<h2>Staff List</h2>
+<ul>
+    {% for mem in staff%}
+        <li>{{mem}}</li>
+    {% endfor %}
+</ul>
 
-        <h2>Products List</h2>
-        <ul>
-            {% for p in products%}
-                <li>{{p}}</li>
-            {% endfor %}
-        </ul>
-        <h2>Cart</h2>
-        <ul>
-            {% for i in items%}
-                <li>{{i}}</li>
-            {% endfor %}
-        </ul>
+<h2>Products List</h2>
+<ul>
+    {% for p in products%}
+        <li>{{p}}</li>
+    {% endfor %}
+</ul>
+<h2>Cart</h2>
+<ul>
+    {% for i in items%}
+        <li>{{i}}</li>
+    {% endfor %}
+</ul>
 
-        <form method='POST'>{% csrf_token %}
-            {{item_form.as_p}}
-            <input type='submit' value='Submit'/>
-        </form>
+<form method='POST'>{% csrf_token %}
+    {{item_form.as_p}}
+    <input type='submit' value='Submit'/>
+</form>
 
-        <form method='POST'>{% csrf_token %}
-            {{staff_form.as_p}}
-            <input type='submit' value='Submit'/>
-        </form>
-    </body>
-</html>
+<form method='POST'>{% csrf_token %}
+    {{staff_form.as_p}}
+    <input type='submit' value='Submit'/>
+</form>
+{% endblock %}

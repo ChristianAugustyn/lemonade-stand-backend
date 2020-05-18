@@ -1,3 +1,6 @@
+{% extends './base.html' %}
+{% block content %}
+
 <h1>Report Form</h1>
 
 <h2>Staff List</h2>
@@ -19,7 +22,7 @@
     <input type='submit' value='Submit'/>
 </form>
 
-<table>
+<table class='report-table'>
     <tr>
         <th>Date</th>
         <th>Items Sold</th>
@@ -41,3 +44,4 @@
         <th>{{total_commission}}</th>
     </tr>
 </table>
+{% endblock %}
