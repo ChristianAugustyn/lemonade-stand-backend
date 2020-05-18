@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from pages.views import form_view
 from products.views import product_detail_view
 from sales.views import sale_form_view, report_form_view
 

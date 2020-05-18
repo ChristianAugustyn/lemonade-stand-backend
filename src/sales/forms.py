@@ -2,7 +2,8 @@ from django import forms
 from .models import Sale
 from products.models import Product
 from orders.models import Order
-from django.contrib.postgres.fields import JSONField
+from datetime import date
+
 class StaffForm(forms.ModelForm):
     class Meta:
         model = Sale
@@ -16,3 +17,17 @@ class ItemForm(forms.ModelForm):
         fields = [
             'item'
         ]
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+class DateForm(forms.Form):
+    start_time = forms.DateField(
+        widget=DateInput(attrs={'class': ''}), 
+        required=True,
+    )
+    end_time = forms.DateField(
+        widget=DateInput(attrs={'class': ''}), 
+        required=True
+    )
+

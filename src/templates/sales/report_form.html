@@ -7,14 +7,15 @@
     {% endfor %}
 </ul>
 
-<form method='POST'> {% csrf_token %}
+<form method='POST' name='report-form'> {% csrf_token %}
     {{staff_form.as_p}}
-    <label>Start Date</label>
-    <input type='date' name='start-date'/ required>
+    {{date_form.as_p}}
+    {% comment %} <label>Start Date</label>
+    <input type='date' name='start_date' required>
     <br>
     <label>End Date</label>
-    <input type='date' name='end-date'/ required>
-    <br>
+    <input type='date' name='end_date' required>
+    <br> {% endcomment %}
     <input type='submit' value='Submit'/>
 </form>
 
@@ -27,10 +28,16 @@
     </tr>
     {% for report in reports %}
         <tr>
-            <th>{{report.date}}</th>
-            <th>{{report.items}}</th>
-            <th>{{report.total_price}}</th>
-            <th>{{report.commission}}</th>
+            <td>{{report.date}}</td>
+            <td>{{report.items}}</td>
+            <td>{{report.total_price}}</td>
+            <td>{{report.commission}}</td>
         </tr>
     {% endfor %}
+    <tr>
+        <th>TOTAL</th>
+        <th></th>
+        <th>{{total_price}}</th>
+        <th>{{total_commission}}</th>
+    </tr>
 </table>
