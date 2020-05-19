@@ -1,10 +1,12 @@
 from django.shortcuts import render
+from django.contrib import messages
 from .models import Sale
 from .forms import StaffForm, ItemForm, DateForm #,SaleForm
 from products.models import Product
 from staff.models import StaffMember
 from orders.models import Order
 from classes.report import ReportItem
+from decimal import Decimal
 # Create your views here.
 items = []
 reports = []
@@ -21,6 +23,13 @@ def getStaff():
         StaffMember.objects.all()
     )
 
+def getCartTotal(items):
+    total = 0
+    for item in items:
+        total += Decimal(Product.objects.get(id=int(item)).price)
+
+    return total
+
 def sale_form_view(request, *args, **kwargs):
 
     item_form = ItemForm(request.POST or None)
@@ -31,27 +40,30 @@ def sale_form_view(request, *args, **kwargs):
         item_form = ItemForm()
 
     if staff_form.is_valid() and len(items) > 0:
-
         sale = Sale.objects.create(
             staff_member=StaffMember.objects.get(id=int(request.POST.get('staff_member'))),
         )
         sale.save()
+
         for i in items:
             order = Order.objects.create(
                 sale=sale,
                 item=Product.objects.get(id=int(i))
             )
             order.save()
+
         items.clear()
         item_form = ItemForm()
         staff_form = StaffForm()
+        messages.add_message(request, messages.SUCCESS, "The data from the form has been saved and the order has be sent")
 
     context = {
         'products': getProducts(),
         'staff': getStaff(),
         'items': items,
         'item_form': item_form,
-        'staff_form': staff_form
+        'staff_form': staff_form,
+        'total': getCartTotal(items)
     }
 
 
@@ -96,7 +108,7 @@ def report_form_view(request):
             staff_form[field].field.widget.attrs['class'] = 'error'
 
         for field in date_form.errors:
-            date_form[field].field.widgets.attrs['class'] = 'error'
+            date_form[field].field.widget.attrs['class'] = 'error'
 
     context = {
         'staff_form': staff_form,

@@ -7,6 +7,9 @@ def product_detail_view(request, *argsm, **kwargs):
     if form.is_valid():
         form.save()
         form = ProductForm()
+    else:
+        for field in form.errors:
+            form[field].field.widget.attrs['class'] = 'error'
 
     context = {
         'products': Product.objects.order_by('id'),
