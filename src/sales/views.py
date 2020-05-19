@@ -38,6 +38,9 @@ def sale_form_view(request, *args, **kwargs):
     if item_form.is_valid():
         items.append(request.POST.get('item'))
         item_form = ItemForm()
+    else:
+        for field in item_form.errors:
+            item_form[field].field.widget.attrs['class'] = 'error'
 
     if staff_form.is_valid() and len(items) > 0:
         sale = Sale.objects.create(
@@ -56,6 +59,9 @@ def sale_form_view(request, *args, **kwargs):
         item_form = ItemForm()
         staff_form = StaffForm()
         messages.add_message(request, messages.SUCCESS, "The data from the form has been saved and the order has be sent")
+    else:
+        for field in staff_form.errors:
+            staff_form[field].field.widget.attrs['class'] = 'error'
 
     context = {
         'products': getProducts(),
