@@ -59,11 +59,11 @@ $ source bin/activate
 
 - `http://127.0.0.1:8000/sales/form/` to view and use the sale form
 
-![](/images/sales_form.png)
+![](/images/sales-form.gif)
 
 - `http://127.0.0.1:8000/sales/report` to view and use the report form
 
-![](/images/sales_report.png)
+![](/images/sales-report.gif)
 
 ## ERD
 
